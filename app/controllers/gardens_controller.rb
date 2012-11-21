@@ -1,9 +1,14 @@
 class GardensController < ApplicationController
+
+  before_filter :authenticate_user!, except: [:index, :show]#, :new]
+
   # GET /gardens
   # GET /gardens.json
   def index
     @gardens = Garden.all
-    @users = User.all
+    
+    @users = User.all # Not sure why this is here, it doesn't seem to be used in the view. -bb
+
     @json = Garden.all.to_gmaps4rails do |garden, marker|
       marker.json({ :id => garden.id })
     end
@@ -39,13 +44,14 @@ class GardensController < ApplicationController
   # GET /gardens/1/edit
   def edit
     @garden = Garden.find(params[:id])
+    must_own_garden
   end
 
   # POST /gardens
   # POST /gardens.json
   def create
     @garden = Garden.new(params[:garden])
-    @garden.user = current_user
+    @garden.user = current_user if current_user
 
     respond_to do |format|
       if @garden.save
@@ -62,7 +68,9 @@ class GardensController < ApplicationController
   # PUT /gardens/1.json
   def update
     @garden = Garden.find(params[:id])
-    @garden.user = current_user
+    must_own_garden
+
+    # @garden.user = current_user # If you force users to be signed in before creating a garden, this is unnecessary.
 
     respond_to do |format|
       if @garden.update_attributes(params[:garden])
@@ -86,4 +94,13 @@ class GardensController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+  def must_own_garden
+    unless current_user && @garden.user.present? && logged_in?(@garden.user)    # If you ensure that every garden has a user, you can remove the "@garden.user.present?" check
+      redirect_to root_path, notice: "You do not own that garden."
+    end
+  end
+
 end

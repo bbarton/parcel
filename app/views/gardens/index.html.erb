@@ -21,38 +21,8 @@
         </tr>
       </thead>
       <tbody>
-        <% @gardens.each do |garden| %>
-        <tr>
-          <td>
-            <h3>
-              <%= link_to garden.title, garden_path(garden) %>
-            </h3>
-            <p>
-              <%= garden.created_at %>
-            </p>
-            <p>
-              <%= garden.description %>
-            </p>
-            <p>
-              <%= garden.neighborhood %>
-            </p>
-          </td>
-          <td></td>
-          <td>
-            <%= button_to "Contact", new_garden_path,
-                :class => "btn btn-mini pull-right", :method => :get %>
-          </td>
-          <td></td>
-          <td>
-            <%= link_to t('.edit', :default => t("helpers.links.edit")), edit_garden_path(garden), :class => 'btn btn-mini' %>
-            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-            garden_path(garden),
-            :method => :delete,
-            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-            :class => 'btn btn-mini btn-danger' %>
-          </td>
-        </tr>
-        <% end %>
+		<% # The code that was here is now in the views/gardens/_garden partial. %>
+        <%= render @gardens %>
       </tbody>
     </table>
 

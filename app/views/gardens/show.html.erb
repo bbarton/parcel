@@ -12,8 +12,8 @@
 <div class="row">
   <div class="span8">
       <p><%= @garden.description %></p>
-      <p><%= @garden.user.first_name %></p>
-      <p><%= @garden.user.email %></p>
+      <p><%= @garden.user.first_name if @garden.user %></p>
+      <p><%= @garden.user.email if @garden.user %></p>
       <p><%= @garden.neighborhood %></p>
 
   </div>
@@ -23,7 +23,7 @@
 
 
 <div class="form-actions">
-  <% if @user==current_user %>
+  <% if current_user && @garden.user.present? && logged_in?(@garden.user) %>
   <%= link_to t('.back', :default => t("helpers.links.back")),
               gardens_path, :class => 'btn'  %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
