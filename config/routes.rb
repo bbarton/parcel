@@ -4,7 +4,9 @@ Parcel::Application.routes.draw do
   match 'auth/failure', to: redirect('/')
   match 'signout', to: 'authentications#destroy', as: 'signout'
 
-  resources :gardens
+  resources :gardens do
+    resources :messages
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,0 +1,6 @@
+From: <%= message.sender.first_name if message.sender %>
+To: <%= message.recipient.first_name if message.recipient %>
+
+<p>
+	<%= message.body %>
+</p>

@@ -8,7 +8,8 @@
       Hi <%= @garden.user.first_name %>
     </h1>
     <p>
-      <%= current_user.message %>
+		You've received a message about your parcel<%= @message.sender.present? ? " from #{@message.sender.first_name}" : "" %>:
+      <%= @message.body %>
     </p>
   </body>
 </html>

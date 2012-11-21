@@ -21,14 +21,16 @@
   <div class="span4">
 
 <div class="well">
-  <%= simple_form_for @garden do |f| %>
+  <%= simple_form_for [@garden, @message] do |f| %>
   <h5>Message Parcel Holder</h5>
   <!-- Change :description to :message -->
-  <%= f.input :description, :as => :text, :input_html => {
+
+  <%= f.input :body, as: :text, label: "Your message:", input_html: {
   :placeholder => "Why are you interested in this Parcel? What do you
   plan to grow and give to the parcel holder?", :rows => 4,
   :cols => 500 } %>
   <%= f.submit 'Send message', :class => 'btn' %>
+  <%= link_to "view messages", garden_messages_path(@garden) %>
   <% end %>        
 </div>
 
